@@ -3,14 +3,14 @@
     <button @click="clickhere">click show data</button>
 
     <ul>
-      <li v-for="cat in cats" :key="cat.id">
-        {{ cat.name }} - {{ cat.age }} - {{ cat.gender }}
+      <li v-for="cat in cats" :key="cat.id" >
+        {{ cat.name }} - {{ cat.age }} - {{ cat.gender }} - {{ cat.gmail }}
       </li>
     </ul>
   </div>
 </template>
 <script>
-import axios from 'axios'
+import { fetchCats } from './composable/useQuery';
 
 export default {
   data() {
@@ -20,14 +20,15 @@ export default {
   },
   methods: {
     async clickhere() {
-      try {
-        const response = await axios.get('http://localhost:9090/homepage')
-        console.log(response.data.text)   // ✅ correct
-        this.cats = response.data.text    // save into reactive state
-      } catch (error) {
-        console.log(error)
-      }
+     this.cats = await fetchCats()
     }
   }
 }
 </script>
+<style scoped>
+ li:hover {
+background-color: aqua;
+cursor: pointer;
+color: black;
+}
+</style>
